@@ -41,7 +41,7 @@ export const getAllProductsSchema = {
   }),
 };
 
-export const getProductByIdSchema = {
+export const productIdSchema = {
   [Segments.PARAMS]: Joi.object({
     noteId: Joi.string().required().custom(objectIdValidator),
   }),
