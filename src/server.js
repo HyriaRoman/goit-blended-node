@@ -9,6 +9,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { logger } from './middleware/logger.js';
 
 import productRouter from './routes/productsRoutes.js';
+import authRouter from './routes/authRoutes.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use(productRouter);
+app.use(authRouter);
 
 app.use(notFoundHandler);
 app.use(errors());
