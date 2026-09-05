@@ -43,7 +43,7 @@ export const getAllProductsSchema = {
 
 export const productIdSchema = {
   [Segments.PARAMS]: Joi.object({
-    noteId: Joi.string().required().custom(objectIdValidator),
+    productId: Joi.string().required().custom(objectIdValidator),
   }),
 };
 
@@ -55,7 +55,7 @@ export const createProductSchema = {
       'string.min': '`name` should have at least {#limit} characters',
     }),
 
-    price: Joi.number().number().required().min(0).messages({
+    price: Joi.number().required().min(0).messages({
       'any.required': '`price` is required',
       'number.base': '`price` must be a number',
       'number.min': '`price` must be at least {#limit}',
@@ -77,7 +77,7 @@ export const createProductSchema = {
 
 export const updateProductSchema = {
   [Segments.PARAMS]: Joi.object({
-    noteId: Joi.string().required().custom(objectIdValidator),
+    productId: Joi.string().required().custom(objectIdValidator),
   }),
 
   [Segments.BODY]: Joi.object({
@@ -86,7 +86,7 @@ export const updateProductSchema = {
       'string.min': '`name` should have at least {#limit} characters',
     }),
 
-    price: Joi.number().number().optional().min(0).messages({
+    price: Joi.number().optional().min(0).messages({
       'number.base': '`price` must be a number',
       'number.min': '`price` must be at least {#limit}',
     }),
