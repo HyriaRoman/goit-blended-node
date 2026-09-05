@@ -46,3 +46,30 @@ export const getProductByIdSchema = {
     noteId: Joi.string().required().custom(objectIdValidator),
   }),
 };
+
+export const createProductSchema = {
+  [Segments.BODY]: Joi.object({
+    name: Joi.string().required().min(1).messages({
+      'any.required': '`name` is required',
+      'string.base': '`name` must be a string',
+      'string.min': '`name` should have at least {#limit} characters',
+    }),
+
+    price: Joi.number().number().required().min(0).messages({
+      'number.base': '`price` must be a number',
+      'number.min': '`price` must be at least {#limit}',
+    }),
+
+    category: Joi.string()
+      .optional()
+      .valid(...CATEGORIES)
+      .messages({
+        'any.only': `\`tag\` must be one of: ${CATEGORIES.join(', ')}`,
+        'string.base': '`tag` must be a string',
+      }),
+
+    description: Joi.string().optional().default('').messages({
+      'string.base': '`description` must be a string',
+    }),
+  }),
+};
