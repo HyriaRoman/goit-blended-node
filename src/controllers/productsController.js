@@ -1,4 +1,4 @@
-// import createHttpError from 'http-errors';
+import createHttpError from 'http-errors';
 
 import { Products } from '../models/product.js';
 
@@ -7,18 +7,35 @@ export async function getAllProducts(req, res) {
   const skip = Math.max(0, (page - 1) * perPage);
   const query = Products.find();
 
-  const [totalNotes, notes] = await Promise.all([
+  const [totalProducts, products] = await Promise.all([
     query.clone().countDocuments(),
     query.skip(skip).limit(perPage),
   ]);
 
-  const totalPages = Math.ceil(totalNotes / perPage);
+  const totalPages = Math.ceil(totalProducts / perPage);
 
   res.status(200).json({
     page,
     perPage,
-    totalNotes,
+    totalProducts,
     totalPages,
-    notes,
+    products,
   });
+}
+
+
+export async function getProductById(req, res) {
+  const { productId } = req.params;
+
+  const product = await Products.findOne({
+    _id: productId,
+  });
+
+  console.log(productId, product)
+
+  if (!product) {
+    throw createHttpError(404, 'Product not found');
+  }
+
+  res.status(200).json(product);
 }
