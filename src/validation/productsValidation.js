@@ -1,4 +1,5 @@
 import { Joi, Segments } from 'celebrate';
+import { CATEGORIES } from '../constants/categories.js';
 
 export const getAllProductsSchema = {
   [Segments.QUERY]: Joi.object({
@@ -20,5 +21,17 @@ export const getAllProductsSchema = {
         'number.min': '`perPage` must be at least {#limit}',
         'number.max': '`perPage` must be at most {#limit}',
       }),
+
+    category: Joi.string()
+      .optional()
+      .valid(...CATEGORIES)
+      .messages({
+        'any.only': `\`tag\` must be one of: ${CATEGORIES.join(', ')}`,
+        'string.base': '`tag` must be a string',
+      }),
+
+    search: Joi.string().optional().default('').messages({
+      'string.base': '`search` must be a string',
+    }),
   }),
 };

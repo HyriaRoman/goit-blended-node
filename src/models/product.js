@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { CATEGORIES } from '../constants/categories.js';
 
 export const productsSchema = new Schema(
   {
@@ -14,7 +15,7 @@ export const productsSchema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ['books', 'electronics', 'clothing', 'other'],
+      enum: CATEGORIES,
       default: 'other',
     },
     description: {

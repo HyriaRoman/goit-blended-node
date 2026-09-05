@@ -3,9 +3,22 @@ import createHttpError from 'http-errors';
 import { Products } from '../models/product.js';
 
 export async function getAllProducts(req, res) {
-  const { page = 1, perPage = 10 } = req.query;
+  const { page = 1, perPage = 10, category = '', search = '' } = req.query;
   const skip = Math.max(0, (page - 1) * perPage);
   const query = Products.find();
+
+  if (category) {
+    query.where('category').equals(category)
+  }
+
+  if (search) {
+    query.where({
+      $or: [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ],
+    });
+  }
 
   const [totalProducts, products] = await Promise.all([
     query.clone().countDocuments(),
