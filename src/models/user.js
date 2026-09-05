@@ -24,11 +24,17 @@ export const usersSchema = new Schema(
   },
 );
 
-usersSchema.pre('save', function () {
+usersSchema.pre('save', function() {
   if (!this.name) {
     this.name = this.email;
   }
-})
+});
+
+usersSchema.methods.toJSON = function() {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+};
 
 usersSchema.index({ email: 1 });
 
