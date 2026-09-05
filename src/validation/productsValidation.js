@@ -56,6 +56,37 @@ export const createProductSchema = {
     }),
 
     price: Joi.number().number().required().min(0).messages({
+      'any.required': '`price` is required',
+      'number.base': '`price` must be a number',
+      'number.min': '`price` must be at least {#limit}',
+    }),
+
+    category: Joi.string()
+      .optional()
+      .valid(...CATEGORIES)
+      .messages({
+        'any.only': `\`tag\` must be one of: ${CATEGORIES.join(', ')}`,
+        'string.base': '`tag` must be a string',
+      }),
+
+    description: Joi.string().optional().default('').messages({
+      'string.base': '`description` must be a string',
+    }),
+  }),
+};
+
+export const updateProductSchema = {
+  [Segments.PARAMS]: Joi.object({
+    noteId: Joi.string().required().custom(objectIdValidator),
+  }),
+
+  [Segments.BODY]: Joi.object({
+    name: Joi.string().optional().min(1).messages({
+      'string.base': '`name` must be a string',
+      'string.min': '`name` should have at least {#limit} characters',
+    }),
+
+    price: Joi.number().number().optional().min(0).messages({
       'number.base': '`price` must be a number',
       'number.min': '`price` must be at least {#limit}',
     }),
