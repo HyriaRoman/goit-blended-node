@@ -23,7 +23,6 @@ export async function getAllProducts(req, res) {
   });
 }
 
-
 export async function getProductById(req, res) {
   const { productId } = req.params;
 
@@ -31,7 +30,46 @@ export async function getProductById(req, res) {
     _id: productId,
   });
 
-  console.log(productId, product)
+  console.log(productId, product);
+
+  if (!product) {
+    throw createHttpError(404, 'Product not found');
+  }
+
+  res.status(200).json(product);
+}
+
+export async function createProduct(req, res) {
+  const product = await Products.create({
+    ...req.body,
+  });
+  res.status(201).json(product);
+}
+
+export async function deleteProduct(req, res) {
+  const { productId } = req.params;
+
+  const product = await Products.findOneAndDelete({
+    _id: productId,
+  });
+
+  if (!product) {
+    throw createHttpError(404, 'Product not found');
+  }
+
+  res.status(200).json(product);
+}
+
+export async function updateProduct(req, res) {
+  const { productId } = req.params;
+
+  const product = await Products.findOneAndUpdate(
+    {
+      _id: productId,
+    },
+    req.body,
+    { returnDocument: 'after' },
+  );
 
   if (!product) {
     throw createHttpError(404, 'Product not found');

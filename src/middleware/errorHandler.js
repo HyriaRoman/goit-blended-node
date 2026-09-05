@@ -1,6 +1,7 @@
 import { HttpError } from 'http-errors';
 
-export function errorHandler(err, req, res) {
+// eslint-disable-next-line no-unused-vars
+export function errorHandler(err, req, res, next) {
   console.error('Error Middleware:', err);
 
   if (err instanceof HttpError) {
