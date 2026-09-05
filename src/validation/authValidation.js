@@ -3,6 +3,7 @@ import { Joi, Segments } from 'celebrate';
 export const registerSchema = {
   [Segments.BODY]: Joi.object({
     name: Joi.string().optional().messages({
+      'any.required': '`name` is required',
       'string.base': '`name` must be a string',
       'string.min': '`name` should have at least {#limit} characters',
     }),
@@ -18,9 +19,5 @@ export const registerSchema = {
       'string.base': '`password` must be a string',
       'string.min': '`password` should have at least {#limit} characters',
     }),
-  })
-    .required()
-    .messages({
-      'any.required': 'must have a body',
-    }),
+  }),
 };

@@ -4,7 +4,7 @@ export const usersSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     email: {
@@ -24,7 +24,7 @@ export const usersSchema = new Schema(
   },
 );
 
-usersSchema.pre('save', function() {
+usersSchema.pre('save', async function () {
   if (!this.name) {
     this.name = this.email;
   }
