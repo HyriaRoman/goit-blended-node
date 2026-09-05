@@ -24,6 +24,12 @@ export const usersSchema = new Schema(
   },
 );
 
+usersSchema.pre('save', function () {
+  if (!this.name) {
+    this.name = this.email;
+  }
+})
+
 usersSchema.index({ email: 1 });
 
 export const Users = model('Users', usersSchema);
