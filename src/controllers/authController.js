@@ -48,6 +48,20 @@ export async function login(req, res) {
   res.status(200).json(user);
 }
 
+export async function logout(req, res) {
+  const { sessionId } = req.cookies;
+
+  if (sessionId) {
+    await Sessions.deleteOne({ _id: sessionId });
+  }
+
+  res.clearCookie('sessionId');
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+
+  res.status(204).send();
+}
+
 export async function refreshToken(req, res) {
   const { sessionId, refreshToken } = req.cookies;
 
