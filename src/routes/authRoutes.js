@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
-import { registerSchema } from '../validation/authValidation.js';
-import { register } from '../controllers/authController.js';
+import { loginSchema, registerSchema } from '../validation/authValidation.js';
+import { login, register } from '../controllers/authController.js';
 
 const router = Router();
 
 router.post('/auth/register', celebrate(registerSchema), register);
+router.post('/auth/login', celebrate(loginSchema), login);
+
 
 export default router;
